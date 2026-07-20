@@ -1,0 +1,1 @@
+A collection of bare-metal STM32 projects covering sensors, displays, storage, motor control and modular embedded applications.
