@@ -1,0 +1,24 @@
+Day 11 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+Internal ctest changing into directory: /mnt/data/day11_7oi33igc/projects/01-layered-firmware-architecture/build
+Test project /mnt/data/day11_7oi33igc/projects/01-layered-firmware-architecture/build
+    Start 1: app_layer_tests
+1/1 Test #1: app_layer_tests ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+Simulation output:
+t=100 button=released led=off toggles=0 writes=1
+t=500 button=released led=on toggles=0 writes=2
+t=600 button=pressed led=off toggles=1 writes=3
+t=650 button=pressed led=off toggles=1 writes=3
+t=700 button=released led=off toggles=1 writes=3
+t=1100 button=released led=on toggles=1 writes=4
+
