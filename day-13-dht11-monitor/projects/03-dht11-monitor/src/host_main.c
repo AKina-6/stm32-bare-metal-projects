@@ -1,0 +1,4 @@
+#include <stdio.h>
+#include "environment_monitor.h"
+static const char* name(env_status_t s){return s==ENV_OK?"OK":s==ENV_STALE?"STALE":"SENSOR_ERROR";}
+int main(void){environment_monitor_t m;environment_monitor_init(&m);dht11_frame_t good={58,0,26,0,84};dht11_frame_t bad={60,0,27,0,0};printf("valid_read=%s\n",environment_monitor_accept(&m,&good,1000)?"yes":"no");printf("temperature=%.1f C humidity=%.1f %% status=%s success=%lu fail=%lu\n",(double)m.latest.temperature_c,(double)m.latest.humidity_percent,name(m.status),(unsigned long)m.success,(unsigned long)m.fail);printf("invalid_read=%s\n",environment_monitor_accept(&m,&bad,2000)?"yes":"no");printf("status=%s success=%lu fail=%lu\n",name(m.status),(unsigned long)m.success,(unsigned long)m.fail);environment_monitor_refresh(&m,7001,5000);printf("after_timeout status=%s\n",name(m.status));return 0;}

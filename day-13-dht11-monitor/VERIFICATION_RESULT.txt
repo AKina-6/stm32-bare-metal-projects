@@ -1,0 +1,23 @@
+Day 13 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+Internal ctest changing into directory: /mnt/data/day13_dht11_uy8td1x7/projects/03-dht11-monitor/build
+Test project /mnt/data/day13_dht11_uy8td1x7/projects/03-dht11-monitor/build
+    Start 1: dht11_core_tests
+1/1 Test #1: dht11_core_tests .................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+Simulation output:
+valid_read=yes
+temperature=26.0 C humidity=58.0 % status=OK success=1 fail=0
+invalid_read=no
+status=SENSOR_ERROR success=1 fail=1
+after_timeout status=STALE
+
