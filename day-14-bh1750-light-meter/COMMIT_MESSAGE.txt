@@ -1,0 +1,1 @@
+feat: add BH1750 light meter with filtering and level classification

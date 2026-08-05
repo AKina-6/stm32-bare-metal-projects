@@ -1,0 +1,29 @@
+Day 14 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+Internal ctest changing into directory: /mnt/data/day14_bh1750_meter_j31mmheu/projects/04-bh1750-light-meter/build
+Test project /mnt/data/day14_bh1750_meter_j31mmheu/projects/04-bh1750-light-meter/build
+    Start 1: bh1750_core_tests
+1/2 Test #1: bh1750_core_tests ................   Passed    0.00 sec
+    Start 2: light_meter_tests
+2/2 Test #2: light_meter_tests ................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.00 sec
+
+
+Simulation output:
+commands=0x01,0x07,0x10 delay_ms=180
+sample=1 latest=10.00 avg=10.00 level=DIM status=OK
+sample=2 latest=100.00 avg=55.00 level=DIM status=OK
+sample=3 latest=300.00 avg=136.67 level=NORMAL status=OK
+sample=4 latest=600.00 avg=252.50 level=NORMAL status=OK
+sample=5 latest=1200.00 avg=442.00 level=NORMAL status=OK
+after_error status=SENSOR_ERROR success=5 fail=1
+after_timeout status=STALE
+
