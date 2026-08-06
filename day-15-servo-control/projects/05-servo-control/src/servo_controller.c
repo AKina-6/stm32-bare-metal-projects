@@ -1,0 +1,10 @@
+#include "servo_controller.h"
+#include <stddef.h>
+bool servo_config_is_valid(const servo_config_t *c){return c&&c->angle_min_deg<c->angle_max_deg&&c->pulse_min_us<c->pulse_max_us&&c->pulse_max_us<c->pwm_period_us;}
+uint16_t servo_clamp_angle(const servo_config_t *c,int32_t a){if(!servo_config_is_valid(c))return 0U;if(a<(int32_t)c->angle_min_deg)return c->angle_min_deg;if(a>(int32_t)c->angle_max_deg)return c->angle_max_deg;return (uint16_t)a;}
+uint16_t servo_angle_to_pulse_us(const servo_config_t *c,uint16_t a){if(!servo_config_is_valid(c))return 0U;uint16_t x=servo_clamp_angle(c,a);uint32_t as=(uint32_t)c->angle_max_deg-c->angle_min_deg,ps=(uint32_t)c->pulse_max_us-c->pulse_min_us,ao=(uint32_t)x-c->angle_min_deg;return (uint16_t)(c->pulse_min_us+(ao*ps+as/2U)/as);}
+uint16_t servo_pulse_us_to_compare(uint16_t p,uint32_t hz){return (uint16_t)(((uint64_t)p*hz+500000ULL)/1000000ULL);}
+bool servo_controller_init(servo_controller_t *c,const servo_config_t *cfg,uint16_t initial,uint16_t max_step){if(!c||!servo_config_is_valid(cfg)||max_step==0U)return false;c->config=*cfg;c->current_angle_deg=servo_clamp_angle(cfg,initial);c->target_angle_deg=c->current_angle_deg;c->max_step_deg=max_step;c->update_count=0U;c->clamp_count=0U;return true;}
+void servo_controller_set_target(servo_controller_t *c,int32_t t){if(!c)return;uint16_t x=servo_clamp_angle(&c->config,t);if(t!=(int32_t)x)c->clamp_count++;c->target_angle_deg=x;}
+uint16_t servo_controller_step(servo_controller_t *c){if(!c)return 0U;if(c->current_angle_deg<c->target_angle_deg){uint16_t r=(uint16_t)(c->target_angle_deg-c->current_angle_deg);c->current_angle_deg=(uint16_t)(c->current_angle_deg+(r>c->max_step_deg?c->max_step_deg:r));}else if(c->current_angle_deg>c->target_angle_deg){uint16_t r=(uint16_t)(c->current_angle_deg-c->target_angle_deg);c->current_angle_deg=(uint16_t)(c->current_angle_deg-(r>c->max_step_deg?c->max_step_deg:r));}c->update_count++;return servo_angle_to_pulse_us(&c->config,c->current_angle_deg);}
+bool servo_controller_at_target(const servo_controller_t *c){return c&&c->current_angle_deg==c->target_angle_deg;}

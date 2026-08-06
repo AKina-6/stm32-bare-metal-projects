@@ -1,0 +1,40 @@
+Day 15 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+Internal ctest changing into directory: /mnt/data/day15_servo_s8wzndpz/projects/05-servo-control/build
+Test project /mnt/data/day15_servo_s8wzndpz/projects/05-servo-control/build
+    Start 1: servo_controller_tests
+1/1 Test #1: servo_controller_tests ...........   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+Simulation output:
+map 0=500 90=1500 180=2500 us
+compare_1500us_1MHz=1500
+angle=105 target=180 pulse=1667 compare=1667
+angle=120 target=180 pulse=1833 compare=1833
+angle=135 target=180 pulse=2000 compare=2000
+angle=150 target=180 pulse=2167 compare=2167
+angle=165 target=180 pulse=2333 compare=2333
+angle=180 target=180 pulse=2500 compare=2500
+clamp_count=1 final=180 updates=6
+return angle=165 pulse=2333
+return angle=150 pulse=2167
+return angle=135 pulse=2000
+return angle=120 pulse=1833
+return angle=105 pulse=1667
+return angle=90 pulse=1500
+return angle=75 pulse=1333
+return angle=60 pulse=1167
+return angle=45 pulse=1000
+return angle=30 pulse=833
+return angle=15 pulse=667
+return angle=0 pulse=500
+clamp_count=2 final=0
+
