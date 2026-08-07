@@ -1,0 +1,9 @@
+#include "settings/settings_record.h"
+#include "settings/crc32.h"
+#include <stddef.h>
+#include <string.h>
+static uint32_t record_crc(const settings_record_t *r){ return crc32_compute(r,offsetof(settings_record_t,crc32)); }
+bool settings_record_build(settings_record_t *r,const app_settings_t *s,uint32_t seq){ if(!r||!app_settings_is_valid(s))return false; memset(r,0,sizeof(*r)); r->magic=SETTINGS_RECORD_MAGIC; r->version=SETTINGS_RECORD_VERSION; r->payload_size=sizeof(app_settings_t); r->sequence=seq; r->payload=*s; r->crc32=record_crc(r); return true; }
+bool settings_record_is_valid(const settings_record_t *r){ return r && r->magic==SETTINGS_RECORD_MAGIC && r->version==SETTINGS_RECORD_VERSION && r->payload_size==sizeof(app_settings_t) && r->crc32==record_crc(r) && app_settings_is_valid(&r->payload); }
+bool settings_storage_load_latest(const settings_storage_t *st,app_settings_t *s,uint32_t *seq,uint8_t *slot){ if(!st||!st->read_slot||!s)return false; settings_record_t a,b; bool av=st->read_slot(st->context,0,&a)&&settings_record_is_valid(&a); bool bv=st->read_slot(st->context,1,&b)&&settings_record_is_valid(&b); if(!av&&!bv)return false; const settings_record_t *c; uint8_t cs; if(av&&bv){ if((int32_t)(b.sequence-a.sequence)>0){c=&b;cs=1;}else{c=&a;cs=0;} } else if(av){c=&a;cs=0;} else {c=&b;cs=1;} *s=c->payload; if(seq)*seq=c->sequence; if(slot)*slot=cs; return true; }
+bool settings_storage_save_next(const settings_storage_t *st,const app_settings_t *s,uint32_t curseq,uint8_t curslot,uint32_t *newseq,uint8_t *newslot){ if(!st||!st->write_slot||!app_settings_is_valid(s)||curslot>1U)return false; uint8_t ns=curslot?0U:1U; uint32_t nq=curseq+1U; settings_record_t r; if(!settings_record_build(&r,s,nq))return false; if(!st->write_slot(st->context,ns,&r))return false; if(newseq)*newseq=nq; if(newslot)*newslot=ns; return true; }

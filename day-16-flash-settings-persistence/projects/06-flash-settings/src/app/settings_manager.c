@@ -1,0 +1,7 @@
+#include "settings/settings_manager.h"
+#include <stddef.h>
+bool settings_manager_init(settings_manager_t *m,const settings_storage_t *st){ if(!m||!st||!st->read_slot||!st->write_slot)return false; m->storage=*st; m->dirty=false; m->save_count=0; m->recovery_count=0; if(settings_storage_load_latest(&m->storage,&m->settings,&m->sequence,&m->active_slot))return true; app_settings_defaults(&m->settings); m->sequence=0; m->active_slot=1; m->dirty=true; m->recovery_count=1; return settings_manager_save_if_dirty(m); }
+void settings_manager_set_light_threshold(settings_manager_t *m,uint16_t v){ if(!m||m->settings.light_threshold_lux==v)return; m->settings.light_threshold_lux=v; m->dirty=true; }
+void settings_manager_set_telemetry_period(settings_manager_t *m,uint16_t v){ if(!m||m->settings.telemetry_period_ms==v)return; m->settings.telemetry_period_ms=v; m->dirty=true; }
+void settings_manager_set_servo_home(settings_manager_t *m,uint16_t v){ if(!m||m->settings.servo_home_deg==v)return; m->settings.servo_home_deg=v; m->dirty=true; }
+bool settings_manager_save_if_dirty(settings_manager_t *m){ if(!m)return false; if(!m->dirty)return true; if(!app_settings_is_valid(&m->settings))return false; uint32_t seq; uint8_t slot; if(!settings_storage_save_next(&m->storage,&m->settings,m->sequence,m->active_slot,&seq,&slot))return false; m->sequence=seq; m->active_slot=slot; m->dirty=false; m->save_count++; return true; }

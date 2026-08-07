@@ -1,0 +1,4 @@
+#include <assert.h>
+#include "settings/settings_manager.h"
+#include "host_flash.h"
+int main(void){ host_flash_t flash={0}; settings_storage_t st={&flash,host_flash_read_slot,host_flash_write_slot}; settings_manager_t m; assert(settings_manager_init(&m,&st)); assert(m.settings.light_threshold_lux==300U); assert(m.sequence==1U&&m.active_slot==0U); settings_manager_set_light_threshold(&m,500U); assert(m.dirty); assert(settings_manager_save_if_dirty(&m)); assert(m.sequence==2U&&m.active_slot==1U); settings_manager_t restored; assert(settings_manager_init(&restored,&st)); assert(restored.settings.light_threshold_lux==500U&&restored.sequence==2U); host_flash_corrupt_slot(&flash,1U); settings_manager_t recovered; assert(settings_manager_init(&recovered,&st)); assert(recovered.sequence==1U); assert(recovered.settings.light_threshold_lux==300U); return 0; }

@@ -1,0 +1,14 @@
+Day 16 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+100% tests passed, 0 tests failed out of 2
+
+Simulation output:
+boot1 seq=1 slot=0 light=300 telemetry=1000 servo=90 dirty=no saves=1 recoveries=1 writes=1
+after_save seq=2 slot=1 light=450 telemetry=2000 servo=120 dirty=no saves=2 recoveries=1 writes=2
+boot2_power_restore seq=2 slot=1 light=450 telemetry=2000 servo=120 dirty=no saves=0 recoveries=0 writes=2
+boot3_crc_recovery seq=1 slot=0 light=300 telemetry=1000 servo=90 dirty=no saves=0 recoveries=0 writes=2
