@@ -1,0 +1,3 @@
+#include <assert.h>
+#include "app/environment_app.h"
+int main(void){ const environment_config_t c={200U,30.0F,90U,150U}; environment_app_t a; assert(environment_app_init(&a,&c)); environment_snapshot_t s={25.0F,50.0F,300.0F,true,true}; environment_app_update(&a,&s); assert(a.status==ENV_APP_NORMAL&&a.servo_target_deg==90U); s.light_lux=100.0F; environment_app_update(&a,&s); assert(a.status==ENV_APP_TOO_DARK&&a.servo_target_deg==150U); s.temperature_c=35.0F; s.light_lux=500.0F; environment_app_update(&a,&s); assert(a.status==ENV_APP_TOO_HOT); s.temperature_valid=false; environment_app_update(&a,&s); assert(a.status==ENV_APP_SENSOR_FAULT); return 0; }

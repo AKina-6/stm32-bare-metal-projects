@@ -1,0 +1,37 @@
+Day 17 automated verification
+
+CMake configure status: 0
+CMake build status: 0
+CTest status: 0
+
+CTest output:
+Internal ctest changing into directory: /mnt/data/day17_env_frrwf_wz/projects/07-integrated-environment-monitor/build
+Test project /mnt/data/day17_env_frrwf_wz/projects/07-integrated-environment-monitor/build
+    Start 1: environment_app_tests
+1/2 Test #1: environment_app_tests ............   Passed    0.00 sec
+    Start 2: formatter_tests
+2/2 Test #2: formatter_tests ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.00 sec
+
+
+Simulation output:
+[NORMAL]
+TEMP=25.5 HUM=58.0 LIGHT=320.0 STATUS=NORMAL SERVO=90
+OLED: T: 25.5 C | H: 58.0 % | L: 320 lx | NORMAL S:90
+updates=1 alarms=0
+[DARK]
+TEMP=26.0 HUM=59.0 LIGHT=80.0 STATUS=TOO_DARK SERVO=150
+OLED: T: 26.0 C | H: 59.0 % | L: 80 lx | TOO_DARK S:150
+updates=2 alarms=1
+[HOT]
+TEMP=33.0 HUM=61.0 LIGHT=500.0 STATUS=TOO_HOT SERVO=150
+OLED: T: 33.0 C | H: 61.0 % | L: 500 lx | TOO_HOT S:150
+updates=3 alarms=2
+[FAULT]
+TEMP=0.0 HUM=0.0 LIGHT=0.0 STATUS=SENSOR_FAULT SERVO=150
+OLED: T: 0.0 C | H: 0.0 % | L: 0 lx | SENSOR_FAULT S:150
+updates=4 alarms=3
+

@@ -1,0 +1,1 @@
+feat: integrate environmental monitor application with sensors UI servo and settings
